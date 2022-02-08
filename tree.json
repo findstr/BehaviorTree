@@ -1,0 +1,222 @@
+{
+  "version": "0.3.0",
+  "scope": "tree",
+  "id": "7fef26de-8832-492e-8bb0-ce0f9f3e69dc",
+  "title": "A behavior tree",
+  "description": "",
+  "root": "66da5c1f-537d-4bfb-9776-db5979fb8913",
+  "properties": {},
+  "nodes": {
+    "66da5c1f-537d-4bfb-9776-db5979fb8913": {
+      "id": "66da5c1f-537d-4bfb-9776-db5979fb8913",
+      "name": "Priority",
+      "title": "Priority",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": -576,
+        "y": -72
+      },
+      "children": [
+        "85713cf8-48b8-42db-8277-cf7ed90d3b9f",
+        "bef2fcd4-422a-432b-bf8a-e8bcc5924cea"
+      ]
+    },
+    "85713cf8-48b8-42db-8277-cf7ed90d3b9f": {
+      "id": "85713cf8-48b8-42db-8277-cf7ed90d3b9f",
+      "name": "bt_holding_green_cube",
+      "title": "Holding Green Cube",
+      "description": "",
+      "properties": {
+        "ud": 1
+      },
+      "display": {
+        "x": -828,
+        "y": 96
+      }
+    },
+    "a278d96b-0b7d-438c-8a9b-095fc26dd921": {
+      "id": "a278d96b-0b7d-438c-8a9b-095fc26dd921",
+      "name": "bt_hand_free",
+      "title": "Hand Free",
+      "description": "",
+      "properties": {
+        "1": 2,
+        "xyz": 1
+      },
+      "display": {
+        "x": -792,
+        "y": 240
+      }
+    },
+    "d6c109f0-6648-41e9-88df-9f2ae7defe36": {
+      "id": "d6c109f0-6648-41e9-88df-9f2ae7defe36",
+      "name": "bt_pick_cube",
+      "title": "Pick Cube",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": -408,
+        "y": 252
+      }
+    },
+    "86842a34-b851-475e-84f6-a57e0b671d02": {
+      "id": "86842a34-b851-475e-84f6-a57e0b671d02",
+      "name": "bt_close_to_cube",
+      "title": "Close To Cube",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": -744,
+        "y": 372
+      }
+    },
+    "14957630-d2d4-404f-9863-22829c09a436": {
+      "id": "14957630-d2d4-404f-9863-22829c09a436",
+      "name": "Sequence",
+      "title": "Sequence",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": -576,
+        "y": 372
+      },
+      "children": [
+        "afd12a76-ea04-470a-8706-ffd076ebf49f",
+        "f75fda36-cb98-4ea6-a2bf-44485417b17a"
+      ]
+    },
+    "afd12a76-ea04-470a-8706-ffd076ebf49f": {
+      "id": "afd12a76-ea04-470a-8706-ffd076ebf49f",
+      "name": "bt_exist_free_trajectory",
+      "title": "Exists Collision Free Trajectory",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": -756,
+        "y": 528
+      }
+    },
+    "f75fda36-cb98-4ea6-a2bf-44485417b17a": {
+      "id": "f75fda36-cb98-4ea6-a2bf-44485417b17a",
+      "name": "bt_approach",
+      "title": "Approach Cube",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": -468,
+        "y": 540
+      }
+    },
+    "bef2fcd4-422a-432b-bf8a-e8bcc5924cea": {
+      "id": "bef2fcd4-422a-432b-bf8a-e8bcc5924cea",
+      "name": "Repeater",
+      "title": "Repeat <maxLoop>x",
+      "description": "",
+      "properties": {
+        "maxLoop": 3
+      },
+      "display": {
+        "x": -576,
+        "y": 48
+      },
+      "child": "852b3b60-7a5d-48d5-8684-af0fbc41ec40"
+    },
+    "852b3b60-7a5d-48d5-8684-af0fbc41ec40": {
+      "id": "852b3b60-7a5d-48d5-8684-af0fbc41ec40",
+      "name": "Sequence",
+      "title": "Sequence",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": -576,
+        "y": 156
+      },
+      "children": [
+        "a278d96b-0b7d-438c-8a9b-095fc26dd921",
+        "f4888936-8660-4650-8921-e72984be73f4",
+        "d6c109f0-6648-41e9-88df-9f2ae7defe36"
+      ]
+    },
+    "f4888936-8660-4650-8921-e72984be73f4": {
+      "id": "f4888936-8660-4650-8921-e72984be73f4",
+      "name": "Priority",
+      "title": "Priority",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": -576,
+        "y": 264
+      },
+      "children": [
+        "86842a34-b851-475e-84f6-a57e0b671d02",
+        "14957630-d2d4-404f-9863-22829c09a436"
+      ]
+    }
+  },
+  "display": {
+    "camera_x": 1483,
+    "camera_y": 333.59999990463257,
+    "camera_z": 1,
+    "x": -576,
+    "y": -192
+  },
+  "custom_nodes": [
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "bt_holding_green_cube",
+      "category": "condition",
+      "title": "Holding Green Cube",
+      "description": null,
+      "properties": {}
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "bt_close_to_cube",
+      "category": "condition",
+      "title": "Close To Cube",
+      "description": null,
+      "properties": {}
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "bt_exist_free_trajectory",
+      "category": "condition",
+      "title": "Exists Collision Free Trajectory",
+      "description": null,
+      "properties": {}
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "bt_approach",
+      "category": "action",
+      "title": "Approach Cube",
+      "description": null,
+      "properties": {}
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "bt_pick_cube",
+      "category": "action",
+      "title": "Pick Cube",
+      "description": null,
+      "properties": {}
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "bt_hand_free",
+      "category": "condition",
+      "title": "Hand Free",
+      "description": null,
+      "properties": {
+        "xyz": 1
+      }
+    }
+  ]
+}
