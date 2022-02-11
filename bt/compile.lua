@@ -117,7 +117,7 @@ local function find_fail_path(node)
 	return nil
 end
 
-build_leaf(tree[1])
+build_leaf(tree)
 build_leaf_id()
 
 for i = 1, #leaf do
@@ -212,7 +212,7 @@ for i = 1, #leaf do
 	end
 end
 
-buf[#buf + 1] = 'return M'
+buf[#buf + 1] = 'return M[1]'
 
 print(concat(buf, "\n"))
 

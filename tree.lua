@@ -34,8 +34,8 @@ local M = {
 		name="bt_hand_free",
 		type="condition",
 		properties={
-			["1"] = "2",
 			["xyz"] = "1",
+			["1"] = "2",
 		},
 	},
 	[8]={
@@ -64,4 +64,4 @@ M[2].children={M[8],M[11],}
 M[3].children={M[5],M[2],}
 M[6].children={M[7],M[3],M[10],}
 M[9].children={M[6],}
-return M
+return M[1]

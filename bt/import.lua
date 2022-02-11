@@ -109,7 +109,7 @@ for i = 1, #nodes do
 	end
 end
 
-buf[#buf + 1 ] = "return M"
+buf[#buf + 1 ] = "return M[1]"
 
 print(concat(buf, "\n"))
 

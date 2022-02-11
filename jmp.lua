@@ -19,8 +19,8 @@ local M = {
 	["type"] = "condition",
 	["name"] = "bt_hand_free",
 	["properties"] = {
-		["xyz"] = 1,
 		["1"] = 2,
+		["xyz"] = 1,
 	},
 	success = nil,
 	failure = nil,
@@ -81,4 +81,4 @@ M[7].success = M[8]
 M[7].failure = M[9]
 M[8].success = M[9]
 M[8].failure = M[9]
-return M
+return M[1]

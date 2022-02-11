@@ -1,17 +1,22 @@
 local M = {}
-local mt = {__index = M}
-local setmetatable = setmetatable
-
-function M:new()
-	return setmetatable({}, mt)
-end
-
 local mem_path = {}
+local tick_count = setmetatable({}, {__mode = "k"})
 
-function M:tick(tree, obj)
-	local res
-	local running_id
-	local ctx = self
+local function tick(tree, actions, ctx)
+	local result
+	local n = tick_count[ctx] or 0 + 1
+	ctx.__tick = n
+	local last = ctx.__running
+	if last then
+		local n = ctx.__downclock
+		if n > 0 then
+			ctx.__downclock = n - 1
+			tree = last
+		end
+		ctx.__running = nil
+	end
+	local running
+	tick_count[ctx] = n
 	repeat
 		local n
 		if tree.mem then
@@ -21,23 +26,32 @@ function M:tick(tree, obj)
 			end
 			mem_path[#mem_path + 1] = tree
 		else
-			local func = obj[tree.name]
-			res = func(obj, tree.properties, res)
-			print("exec", tree.name, res)
-			if res == "running" then
-				running_id = tree.id
+			local func = actions[tree.name]
+			if tree.type == "decorator" then
+				result = func(ctx, tree.properties, result)
+			else
+				result = func(ctx, tree.properties)
+			end
+			print("exec", tree.name, result)
+			if result == nil then
+				running = tree
 				break
 			end
-			n = tree[res]
+			if result then
+				n = tree.success
+			else
+				n = tree.failure
+			end
 		end
 		tree = n
 	until not tree
-	if res ~= "running" then
+	if result ~= nil then
 		for i = 1, #mem_path do
-			ctx[mem_path[i]] = nil
+			ctx[mem_path[i]] = false --prevent rehash
 			mem_path[i] = nil
 		end
 	else
+		local running_id = running.id
 		for i = 1, #mem_path do
 			local nxt
 			local node = mem_path[i]
@@ -55,10 +69,13 @@ function M:tick(tree, obj)
 			end
 			mem_path[i] = nil
 		end
+		if running ~= last then
+			ctx.__running = running
+			ctx.__downclock = 10
+		end
 	end
-	return res
+	return result
 end
 
-
-return M
+return tick
 

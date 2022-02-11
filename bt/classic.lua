@@ -1,23 +1,19 @@
-local M = {}
-local mt = {__index = M}
-local setmetatable = setmetatable
-
 local node = {}
 
 local function exec(func)
-	return function(ctx, root, obj)
+	return function(root, actions, ctx)
 		local mem = root.mem
 		if mem then
 			local c = ctx[root]
 			if c then
-				local res = node[c.type](ctx, c, obj)
-				if res ~= "running" then
+				local res = node[c.type](c, actions, ctx)
+				if res ~= nil then
 					ctx[root] = nil
 				end
 				return res
 			end
 		end
-		local res, c = func(ctx, root, obj)
+		local res, c = func(root, actions, ctx)
 		if mem then
 			ctx[root] = c
 		end
@@ -25,58 +21,54 @@ local function exec(func)
 	end
 end
 
-node.sequence = exec(function(ctx, root, obj)
+node.sequence = exec(function(root, actions, ctx)
 	local children = root.children
 	for i = 1, #children do
 		local c = children[i]
-		local res = node[c.type](ctx, c, obj)
-		if res == "running" then
-			return "running", c
-		elseif res == "failure" then
-			return "failure", nil
+		local res = node[c.type](c, actions, ctx)
+		if res == nil then
+			return nil, c
+		elseif res == false then
+			return false, nil
 		end
 	end
-	return "success", nil
+	return true, nil
 end)
 
-node.fallback = exec(function(ctx, root, obj)
+node.fallback = exec(function(root, actions, ctx)
 	local children = root.children
 	for i = 1, #children do
 		local c = children[i]
-		local res = node[c.type](ctx, c, obj)
-		if res == "running" then
-			return "running", c
-		elseif res == "success" then
-			return "success", nil
+		local res = node[c.type](c, actions, ctx)
+		if res == nil then
+			return nil, c
+		elseif res == true then
+			return true, nil
 		end
 	end
-	return "failure", nil
+	return false, nil
 end)
 
-node.decorator = function(ctx, root, obj)
+node.decorator = function(root, actions, ctx)
 	local child = root.children[1]
-	local res = node[child.type](ctx, child, obj)
-	local func = obj[root.name]
-	local res = func(obj, root.properties, res)
+	local res = node[child.type](child, actions, ctx)
+	local func = actions[root.name]
+	local res = func(ctx, root.properties, res)
 	return res
 end
 
-node.action = function(ctx, root, obj)
-	local func = obj[root.name]
-	local res = func(obj, root.properties)
+node.action = function(root, actions, ctx)
+	local func = actions[root.name]
+	local res = func(ctx, root.properties)
+	print(root.name, res)
 	return res
 end
 
 node.condition = node.action
 
-function M:new()
-	return setmetatable({}, mt)
+local function tick(tree, actions, ctx)
+	node[tree.type](tree, actions, ctx)
 end
 
-function M:tick(tree, obj)
-	node[tree.type](self, tree, obj, true)
-end
-
-
-return M
+return tick
 
